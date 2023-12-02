@@ -6,11 +6,11 @@
 /*   By: yaharkat <yaharkat@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/11 21:59:16 by yaharkat          #+#    #+#             */
-/*   Updated: 2023/12/02 09:59:37 by yaharkat         ###   ########.fr       */
+/*   Updated: 2023/12/02 10:14:12 by yaharkat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../includes/libft.h"
 
 char	*get_clean_line(char *buffer)
 {
