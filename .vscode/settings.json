@@ -7,6 +7,8 @@
 		"*.css.liquid": "liquid-css",
 		"*.scss.liquid": "liquid-scss",
 		"*.c": "c",
-		"libft.h": "c"
+		"libft.h": "c",
+		"pipex.h": "c",
+		"string.h": "c"
 	}
 }
