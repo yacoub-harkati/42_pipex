@@ -7,6 +7,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <sys/errno.h>
+#include <sys/wait.h>
 
 # define EXIT_FAILURE 1
 # define EXIT_SUCCESS 0

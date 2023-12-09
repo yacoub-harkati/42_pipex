@@ -6,7 +6,7 @@
 /*   By: yaharkat <yaharkat@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 18:11:22 by yaharkat          #+#    #+#             */
-/*   Updated: 2023/12/07 16:47:05 by yaharkat         ###   ########.fr       */
+/*   Updated: 2023/12/09 14:27:06 by yaharkat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ typedef struct s_list
 }					t_list;
 
 char				*get_next_line(int fd);
-int					ft_printf_fd(int fd, const char *s, ...);
+int					ft_fprintf(int fd, const char *s, ...);
 int					ft_isalnum(int c);
 int					ft_isalpha(int c);
 int					ft_isascii(int c);

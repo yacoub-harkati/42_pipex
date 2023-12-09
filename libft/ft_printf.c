@@ -6,7 +6,7 @@
 /*   By: yaharkat <yaharkat@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 06:03:08 by yaharkat          #+#    #+#             */
-/*   Updated: 2023/12/07 16:46:29 by yaharkat         ###   ########.fr       */
+/*   Updated: 2023/12/09 14:27:13 by yaharkat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ static int	proccess_conversion(char c, va_list list, int fd)
 	return (count);
 }
 
-int	ft_printf_fd(int fd, const char *s, ...)
+int	ft_fprintf(int fd, const char *s, ...)
 {
 	va_list	list;
 	int		count;
