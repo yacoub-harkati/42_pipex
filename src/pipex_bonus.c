@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.c                                            :+:      :+:    :+:   */
+/*   pipex_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yaharkat <yaharkat@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 21:19:30 by yaharkat          #+#    #+#             */
-/*   Updated: 2023/12/09 16:27:33 by yaharkat         ###   ########.fr       */
+/*   Updated: 2023/12/09 16:28:43 by yaharkat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	main(int ac, char **av, char **envp)
 {
 	t_pipex	*pipe_d;
 
-	if (ac != 5)
+	if (ac < 5)
 	{
 		ft_fprintf(2,
 			"Invalid Arguments: > ./pipex file1 cmd1 cmd2 file2\n");
