@@ -6,7 +6,7 @@
 /*   By: yaharkat <yaharkat@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/11 21:59:16 by yaharkat          #+#    #+#             */
-/*   Updated: 2023/12/02 10:14:12 by yaharkat         ###   ########.fr       */
+/*   Updated: 2023/12/09 16:19:54 by yaharkat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ char	*get_clean_line(char *buffer)
 		i++;
 	return (ft_substr(buffer, 0, i + 1));
 }
+
 char	*get_rest(char *s)
 {
 	char	*rest;
