@@ -13,39 +13,46 @@
 #include "../includes/libft.h"
 #include "../includes/pipex.h"
 
-void ft_init_pipe(t_pipex *pipe_d)
+
+int open_infile(char **av, t_pipex *pipe_d)
 {
-	if (pipe_d->cmd_iter == 0)
+	int fd;
+
+	if (pipe_d->here_doc)
 	{
-		dup2(pipe_d->in_fd, STDIN_FILENO);
-		dup2(pipe_d->fd_pipe[1], STDOUT_FILENO);
-		ft_close_pipe(pipe_d);
-	}
-	else if (pipe_d->cmd_iter == pipe_d->cmd_count - 1)
-	{
-		dup2(pipe_d->fd_pipe[0], STDIN_FILENO);
-		dup2(pipe_d->out_fd, STDOUT_FILENO);
-		ft_close_pipe(pipe_d);
+		fd = open("here_doc", O_RDWR | O_TRUNC | O_CREAT, 0644);
+		if (fd < 0)
+		{
+			perror("Error: while opening here_doc file");
+			ft_cleanup_pipe(pipe_d);
+			exit(EXIT_FAILURE);
+		}
+		write_here_doc(fd, av[2]);
+		close(fd);
+		fd = open("here_doc", O_RDONLY, 0644);
 	}
 	else
-	{
-		dup2(pipe_d->fd_pipe[0], STDIN_FILENO);
-		dup2(pipe_d->fd_pipe[1], STDOUT_FILENO);
-		ft_close_pipe(pipe_d);
-	}
+		fd = open(av[1], O_RDONLY, 0644);
+	return (fd);
 }
 
-void ft_close_pipe(t_pipex *pipe_d)
+int open_outfile(int ac, char **av, t_pipex *pipe_d)
 {
-	if (pipe_d->cmd_iter == 0)
-		close(pipe_d->fd_pipe[1]);
-	else if (pipe_d->cmd_iter == pipe_d->cmd_count - 1)
-		close(pipe_d->fd_pipe[0]);
+	int fd;
+
+	if (pipe_d->here_doc)
+		fd = open(av[ac - 1], O_RDWR | O_APPEND | O_CREAT, 0644);
 	else
-	{
-		close(pipe_d->fd_pipe[0]);
-		close(pipe_d->fd_pipe[1]);
-	}
+		fd = open(av[ac - 1], O_RDWR | O_TRUNC | O_CREAT, 0644);
+	return (fd);
+}
+
+int is_here_doc(char **av)
+{
+	if (ft_strncmp(av[1], "here_doc", 9) == 0)
+		return (1);
+	else
+		return (0);
 }
 
 void free_double_p(char **str)
@@ -68,7 +75,6 @@ void ft_cleanup_pipe(t_pipex *pipe_d)
 	i = 0;
 	if (pipe_d->here_doc)
 		unlink("here_doc");
-	ft_close_pipe(pipe_d);
 	while (i < pipe_d->cmd_count)
 	{
 		free_double_p(pipe_d->cmd_args[i]);

@@ -62,6 +62,8 @@ char	*initisalize_buffer(void)
 
 char	*read_line_lines(char *buffer, char *line, int fd, ssize_t *bytes_read)
 {
+	char *tmp;
+
 	if (fd < 0 || BUFFER_SIZE <= 0)
 	{
 		free(buffer);
@@ -75,7 +77,9 @@ char	*read_line_lines(char *buffer, char *line, int fd, ssize_t *bytes_read)
 		return (NULL);
 	}
 	line[*bytes_read] = '\0';
+	tmp = buffer;
 	buffer = ft_strjoin(buffer, line);
+	free(tmp);
 	return (buffer);
 }
 

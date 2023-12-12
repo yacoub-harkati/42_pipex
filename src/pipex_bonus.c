@@ -29,63 +29,6 @@ int get_cmd_offset(char **av)
 		return (2);
 }
 
-void write_here_doc(int in_fd, char *eof)
-{
-	char *line;
-
-	line = NULL;
-	while (get_next_line(0, &line) > 0)
-	{
-		if (ft_strncmp(line, eof, 3) == 0)
-		{
-			free(line);
-			break;
-		}
-		ft_fprintf(in_fd, "%s\n", line);
-		free(line);
-	}
-}
-
-int open_infile(char **av, t_pipex *pipe_d)
-{
-	int fd;
-
-	if (pipe_d->here_doc)
-	{
-		fd = open("here_doc", O_RDWR | O_TRUNC | O_CREAT, 0644);
-		if (fd < 0)
-		{
-			perror("Error: while opening here_doc file");
-			ft_cleanup_pipe(pipe_d);
-			exit(EXIT_FAILURE);
-		}
-		write_here_doc(fd, av[2]);
-		close(fd);
-		fd = open("here_doc", O_RDONLY, 0644);
-	}
-	else
-		fd = open(av[1], O_RDONLY, 0644);
-	return (fd);
-}
-
-int open_outfile(int ac, char **av, t_pipex *pipe_d)
-{
-	int fd;
-
-	if (pipe_d->here_doc)
-		fd = open(av[ac - 1], O_RDWR | O_APPEND | O_CREAT, 0644);
-	else
-		fd = open(av[ac - 1], O_RDWR | O_TRUNC | O_CREAT, 0644);
-	return (fd);
-}
-
-int is_here_doc(char **av)
-{
-	if (ft_strncmp(av[1], "here_doc", 9) == 0)
-		return (1);
-	else
-		return (0);
-}
 
 void ft_init_pipex(int ac, char **av, char **envp, t_pipex *pipe_d)
 {
@@ -103,40 +46,6 @@ void ft_init_pipex(int ac, char **av, char **envp, t_pipex *pipe_d)
 		ft_cleanup_pipe(pipe_d);
 		perror("Error: while opening files");
 		exit(EXIT_FAILURE);
-	}
-	if (pipe(pipe_d->fd_pipe) < 0)
-	{
-		perror("Pipe Error");
-		ft_cleanup_pipe(pipe_d);
-		exit(EXIT_FAILURE);
-	}
-}
-
-void ft_exec(t_pipex *pipe_d, char **envp)
-{
-	pid_t pid;
-
-	pid = fork();
-	if (pid < 0)
-	{
-		perror("Fork Error");
-		ft_cleanup_pipe(pipe_d);
-		exit(EXIT_FAILURE);
-	}
-	if (pid == 0)
-	{
-		ft_init_pipe(pipe_d);
-		execve(pipe_d->cmd_paths[pipe_d->cmd_iter],
-			   pipe_d->cmd_args[pipe_d->cmd_iter], envp);
-		ft_fprintf(2, "Error: while executing command %d: %s\n", pipe_d->cmd_iter + 1, strerror(errno));
-		ft_close_pipe(pipe_d);
-		ft_cleanup_pipe(pipe_d);
-		exit(EXIT_FAILURE);
-	}
-	else
-	{
-		ft_close_pipe(pipe_d);
-		waitpid(pid, NULL, 0);
 	}
 }
 
@@ -157,11 +66,7 @@ int main(int ac, char **av, char **envp)
 		exit(EXIT_FAILURE);
 	}
 	ft_init_pipex(ac, av, envp, pipe_d);
-	while (pipe_d->cmd_iter < pipe_d->cmd_count)
-	{
-		ft_exec(pipe_d, envp);
-		pipe_d->cmd_iter++;
-	}
+	pipex(pipe_d, envp);
 	ft_cleanup_pipe(pipe_d);
 	return (EXIT_SUCCESS);
 }

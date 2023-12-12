@@ -38,33 +38,6 @@ void ft_init_pipex(int ac, char **av, char **envp, t_pipex *pipe_d)
 	}
 }
 
-void ft_exec(t_pipex *pipe_d, char **envp)
-{
-	pid_t pid;
-
-	pid = fork();
-	if (pid < 0)
-	{
-		perror("Fork Error");
-		ft_cleanup_pipe(pipe_d);
-		exit(EXIT_FAILURE);
-	}
-	if (pid == 0)
-	{
-		ft_init_pipe(pipe_d);
-		execve(pipe_d->cmd_paths[pipe_d->cmd_iter],
-			   pipe_d->cmd_args[pipe_d->cmd_iter], envp);
-		ft_fprintf(2, "Error: while executing command %d: %s\n", pipe_d->cmd_iter + 1, strerror(errno));
-		ft_cleanup_pipe(pipe_d);
-		exit(EXIT_FAILURE);
-	}
-	else
-	{
-		ft_init_pipe(pipe_d);
-		waitpid(pid, NULL, 0);
-	}
-}
-
 int main(int ac, char **av, char **envp)
 {
 	t_pipex *pipe_d;
@@ -82,11 +55,7 @@ int main(int ac, char **av, char **envp)
 		exit(EXIT_FAILURE);
 	}
 	ft_init_pipex(ac, av, envp, pipe_d);
-	while (pipe_d->cmd_iter < pipe_d->cmd_count)
-	{
-		ft_exec(pipe_d, envp);
-		pipe_d->cmd_iter++;
-	}
+	pipex(pipe_d, envp);
 	ft_cleanup_pipe(pipe_d);
 	return (EXIT_SUCCESS);
 }
