@@ -13,7 +13,6 @@
 #include "../includes/libft.h"
 #include "../includes/pipex.h"
 
-
 int open_infile(char **av, t_pipex *pipe_d)
 {
 	int fd;

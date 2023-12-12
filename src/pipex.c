@@ -30,12 +30,6 @@ void ft_init_pipex(int ac, char **av, char **envp, t_pipex *pipe_d)
 		perror("Error: while opening files");
 		exit(EXIT_FAILURE);
 	}
-	if (pipe(pipe_d->fd_pipe) < 0)
-	{
-		perror("Pipe Error");
-		ft_cleanup_pipe(pipe_d);
-		exit(EXIT_FAILURE);
-	}
 }
 
 int main(int ac, char **av, char **envp)

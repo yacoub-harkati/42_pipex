@@ -13,23 +13,6 @@
 #include "../includes/libft.h"
 #include "../includes/pipex.h"
 
-int get_cmd_number(int ac, char **av)
-{
-	if (ft_strncmp(av[1], "here_doc", 9) == 0)
-		return (ac - 4);
-	else
-		return (ac - 3);
-}
-
-int get_cmd_offset(char **av)
-{
-	if (ft_strncmp(av[1], "here_doc", 9) == 0)
-		return (3);
-	else
-		return (2);
-}
-
-
 void ft_init_pipex(int ac, char **av, char **envp, t_pipex *pipe_d)
 {
 	pipe_d->here_doc = is_here_doc(av);

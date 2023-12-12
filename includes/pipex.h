@@ -43,5 +43,7 @@ int open_outfile(int ac, char **av, t_pipex *pipe_d);
 int open_infile(char **av, t_pipex *pipe_d);
 int get_cmd_number(int ac, char **av);
 int get_cmd_offset(char **av);
+void ft_cleanup_exit(t_pipex *pipe_d);
+void close_both_fds(t_pipex *pipe_d);
 
 #endif
