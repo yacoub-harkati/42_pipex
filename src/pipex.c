@@ -18,9 +18,9 @@ void ft_init_pipex(int ac, char **av, char **envp, t_pipex *pipe_d)
 	pipe_d->cmd_count = 2;
 	pipe_d->cmd_offset = 2;
 	pipe_d->cmd_iter = 0;
-	pipe_d->env_paths = ft_parse_env_paths(ac, envp, pipe_d);
-	pipe_d->cmd_args = ft_parse_args(ac, av, pipe_d);
-	pipe_d->cmd_paths = ft_parse_paths(ac, pipe_d);
+	pipe_d->env_paths = ft_parse_env_paths( envp, pipe_d);
+	pipe_d->cmd_args = ft_parse_args( av, pipe_d);
+	pipe_d->cmd_paths = ft_parse_paths( pipe_d);
 	pipe_d->in_fd = open(av[1], O_RDONLY, 0644);
 	pipe_d->out_fd = open(av[ac - 1], O_RDWR | O_TRUNC | O_CREAT, 0644);
 	if (pipe_d->out_fd < 0 || pipe_d->in_fd < 0)

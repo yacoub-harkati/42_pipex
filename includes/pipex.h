@@ -26,9 +26,9 @@ typedef struct s_pipex
 } t_pipex;
 
 char *ft_get_correct_cmd_path(char *cmd, char **env_paths);
-char **ft_parse_env_paths(int ac, char **envp, t_pipex *pipe_d);
-char ***ft_parse_args(int ac, char **av, t_pipex *pipe_d);
-char **ft_parse_paths(int ac, t_pipex *pipe_d);
+char **ft_parse_env_paths(char **envp, t_pipex *pipe_d);
+char ***ft_parse_args(char **av, t_pipex *pipe_d);
+char **ft_parse_paths(t_pipex *pipe_d);
 void ft_init_pipex(int ac, char **av, char **envp, t_pipex *pipe_d);
 
 void ft_init_pipe(t_pipex *pipe_d);
