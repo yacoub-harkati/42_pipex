@@ -20,7 +20,7 @@ void write_here_doc(int in_fd, char *eof)
 	line = NULL;
 	while (get_next_line(0, &line) > 0)
 	{
-		if (ft_strncmp(line, eof, 3) == 0)
+		if (ft_strncmp(line, eof, ft_strlen(eof)) == 0)
 		{
 			free(line);
 			break;
