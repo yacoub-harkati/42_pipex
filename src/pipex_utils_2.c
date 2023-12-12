@@ -13,31 +13,29 @@
 #include "../includes/libft.h"
 #include "../includes/pipex.h"
 
-void	ft_init_pipe(t_pipex *pipe_d)
+void ft_init_pipe(t_pipex *pipe_d)
 {
 	if (pipe_d->cmd_iter == 0)
 	{
-		close(pipe_d->fd_pipe[0]);
 		dup2(pipe_d->in_fd, STDIN_FILENO);
 		dup2(pipe_d->fd_pipe[1], STDOUT_FILENO);
-		close(pipe_d->fd_pipe[1]);
+		ft_close_pipe(pipe_d);
 	}
 	else if (pipe_d->cmd_iter == pipe_d->cmd_count - 1)
 	{
 		dup2(pipe_d->fd_pipe[0], STDIN_FILENO);
 		dup2(pipe_d->out_fd, STDOUT_FILENO);
-		close(pipe_d->fd_pipe[0]);
+		ft_close_pipe(pipe_d);
 	}
 	else
 	{
 		dup2(pipe_d->fd_pipe[0], STDIN_FILENO);
 		dup2(pipe_d->fd_pipe[1], STDOUT_FILENO);
-		close(pipe_d->fd_pipe[0]);
-		close(pipe_d->fd_pipe[1]);
+		ft_close_pipe(pipe_d);
 	}
 }
 
-void	ft_close_pipe(t_pipex *pipe_d)
+void ft_close_pipe(t_pipex *pipe_d)
 {
 	if (pipe_d->cmd_iter == 0)
 		close(pipe_d->fd_pipe[1]);
@@ -50,9 +48,9 @@ void	ft_close_pipe(t_pipex *pipe_d)
 	}
 }
 
-void	free_double_p(char **str)
+void free_double_p(char **str)
 {
-	int	i;
+	int i;
 
 	i = 0;
 	while (str[i])
@@ -63,9 +61,9 @@ void	free_double_p(char **str)
 	free(str);
 }
 
-void	ft_cleanup_pipe(t_pipex *pipe_d)
+void ft_cleanup_pipe(t_pipex *pipe_d)
 {
-	int	i;
+	int i;
 
 	i = 0;
 	if (pipe_d->here_doc)
