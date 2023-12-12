@@ -30,5 +30,7 @@ char	*ft_strjoin(char *s1, char *s2)
 	dst[0] = '\0';
 	ft_strlcat(dst, s1, (size + 1));
 	ft_strlcat(dst, s2, (size + 1));
+	if (!*s1)
+		free(s1);
 	return (dst);
 }

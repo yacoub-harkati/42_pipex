@@ -70,17 +70,12 @@ void ft_exec(t_pipex *pipe_d, char **env)
 	pid_t pid;
 
 	if (pipe(pipe_d->fd_pipe) == -1)
-	{
-		perror("Pipe Error");
-		ft_cleanup_pipe(pipe_d);
-		exit(EXIT_FAILURE);
-	}
+		ft_cleanup_exit(pipe_d);
 	pid = fork();
 	if (pid == -1 && pipe_d->cmd_iter < pipe_d->cmd_count)
 	{
 		perror("Fork Error");
-		ft_cleanup_pipe(pipe_d);
-		exit(EXIT_FAILURE);
+		ft_cleanup_exit(pipe_d);
 	}
 	if (pid == 0)
 		child_exec(pipe_d, env);
@@ -89,11 +84,9 @@ void ft_exec(t_pipex *pipe_d, char **env)
 		if (dup2(pipe_d->fd_pipe[0], STDIN_FILENO) == -1)
 		{
 			perror("Dup2 Error");
-			ft_cleanup_pipe(pipe_d);
-			exit(EXIT_FAILURE);
+			ft_cleanup_exit(pipe_d);
 		}
-		close(pipe_d->fd_pipe[0]);
-		close(pipe_d->fd_pipe[1]);
+		close_both_fds(pipe_d);
 	}
 }
 

@@ -15,7 +15,7 @@
 char	*get_clean_line(char *buffer)
 {
 	int	i;
-
+	
 	if (!buffer || !*buffer)
 		return (NULL);
 	i = 0;
@@ -31,7 +31,7 @@ char	*get_rest(char *s)
 	int		len;
 
 	i = 0;
-	if (!s[i])
+	if (*s == '\0')
 	{
 		free(s);
 		return (NULL);
@@ -99,13 +99,10 @@ ssize_t	get_next_line(int fd, char **buff)
 	}
 	bytes_read = 1;
 	while (bytes_read > 0 && !ft_strchr(line, '\n'))
-	{
 		buffer[fd] = read_line_lines(buffer[fd], line, fd, &bytes_read);
-		if (!buffer[fd])
-			return (-1);
-	}
 	*buff = get_clean_line(buffer[fd]);
 	buffer[fd] = get_rest(buffer[fd]);
-	free(line);
-	return (bytes_read);
+	if (!*buffer[fd])
+		free(buffer[fd]);
+	return (free(line), bytes_read);
 }
