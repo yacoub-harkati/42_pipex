@@ -13,16 +13,82 @@
 #include "../includes/libft.h"
 #include "../includes/pipex.h"
 
+int get_cmd_number(int ac, char **av)
+{
+	if (ft_strncmp(av[1], "here_doc", 9) == 0)
+		return (ac - 4);
+	else
+		return (ac - 3);
+}
+
+int get_cmd_offset(char **av)
+{
+	if (ft_strncmp(av[1], "here_doc", 9) == 0)
+		return (3);
+	else
+		return (2);
+}
+
+void write_here_doc(int in_fd, char *eof)
+{
+	char *line;
+
+	line = NULL;
+	while (get_next_line(0, &line) > 0)
+	{
+		if (ft_strncmp(line, eof, 3) == 0)
+		{
+			free(line);
+			break;
+		}
+		ft_fprintf(in_fd, "%s\n", line);
+		free(line);
+	}
+}
+
+int open_infile(char **av, t_pipex *pipe_d)
+{
+	int fd;
+
+	if (ft_strncmp(av[1], "here_doc", 9) == 0)
+	{
+		fd = open("here_doc", O_RDWR | O_TRUNC | O_CREAT, 0644);
+		if (fd < 0)
+		{
+			perror("Error: while opening here_doc file");
+			ft_cleanup_pipe(pipe_d);
+			exit(EXIT_FAILURE);
+		}
+		write_here_doc(fd, av[2]);
+		close(fd);
+		fd = open("here_doc", O_RDONLY, 0644);
+	}
+	else
+		fd = open(av[1], O_RDONLY, 0644);
+	return (fd);
+}
+
+int open_outfile(int ac, char **av)
+{
+	int fd;
+
+	if (ft_strncmp(av[1], "here_doc", 9) == 0)
+		fd = open(av[ac - 1], O_RDWR | O_APPEND | O_CREAT, 0644);
+	else
+		fd = open(av[ac - 1], O_RDWR | O_TRUNC | O_CREAT, 0644);
+	return (fd);
+}
+
 void ft_init_pipex(int ac, char **av, char **envp, t_pipex *pipe_d)
 {
-	pipe_d->cmd_count = 2;
-	pipe_d->cmd_offset = 2;
+	pipe_d->cmd_count = get_cmd_number(ac, av);
+	pipe_d->cmd_offset = get_cmd_offset(av);
 	pipe_d->cmd_iter = 0;
-	pipe_d->env_paths = ft_parse_env_paths( envp, pipe_d);
-	pipe_d->cmd_args = ft_parse_args( av, pipe_d);
-	pipe_d->cmd_paths = ft_parse_paths( pipe_d);
-	pipe_d->in_fd = open(av[1], O_RDONLY, 0644);
-	pipe_d->out_fd = open(av[ac - 1], O_RDWR | O_TRUNC | O_CREAT, 0644);
+	pipe_d->env_paths = ft_parse_env_paths(envp, pipe_d);
+	pipe_d->cmd_args = ft_parse_args(av, pipe_d);
+	pipe_d->cmd_paths = ft_parse_paths(pipe_d);
+	pipe_d->in_fd = open_infile(av, pipe_d);
+	pipe_d->out_fd = open_outfile(ac, av);
 	if (pipe_d->out_fd < 0 || pipe_d->in_fd < 0)
 	{
 		ft_cleanup_pipe(pipe_d);

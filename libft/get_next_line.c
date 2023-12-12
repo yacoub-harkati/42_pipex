@@ -79,29 +79,29 @@ char	*read_line_lines(char *buffer, char *line, int fd, ssize_t *bytes_read)
 	return (buffer);
 }
 
-char	*get_next_line(int fd)
+ssize_t	get_next_line(int fd, char **buff)
 {
-	char		*line[2];
+	char		*line;
 	static char	*buffer[1024];
 	ssize_t		bytes_read;
 
-	line[0] = initisalize_buffer();
-	if (line[0] == NULL)
-		return (NULL);
+	line = initisalize_buffer();
+	if (line == NULL)
+		return (-1);
 	if (fd < 0 || BUFFER_SIZE <= 0)
 	{
-		free(line[0]);
-		return (NULL);
+		free(line);
+		return (-1);
 	}
 	bytes_read = 1;
-	while (bytes_read > 0 && !ft_strchr(line[0], '\n'))
+	while (bytes_read > 0 && !ft_strchr(line, '\n'))
 	{
-		buffer[fd] = read_line_lines(buffer[fd], line[0], fd, &bytes_read);
+		buffer[fd] = read_line_lines(buffer[fd], line, fd, &bytes_read);
 		if (!buffer[fd])
-			return (NULL);
+			return (-1);
 	}
-	line[1] = get_clean_line(buffer[fd]);
+	*buff = get_clean_line(buffer[fd]);
 	buffer[fd] = get_rest(buffer[fd]);
-	free(line[0]);
-	return (line[1]);
+	free(line);
+	return (bytes_read);
 }

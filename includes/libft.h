@@ -32,7 +32,7 @@ typedef struct s_list
 	struct s_list	*next;
 }					t_list;
 
-char				*get_next_line(int fd);
+ssize_t	get_next_line(int fd, char **buff);
 int					ft_fprintf(int fd, const char *s, ...);
 int					ft_isalnum(int c);
 int					ft_isalpha(int c);
