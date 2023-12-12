@@ -1,7 +1,5 @@
 # Pipex-42
 
-This is the README file for the Pipex-42 project at 42 School.
-
 ## Description
 
 Pipex-42 is a project that aims to recreate the functionality of the shell command pipeline (`|`) in C. It involves creating a program that takes two file paths and two commands as arguments, and then executes the commands in a pipeline, redirecting the input and output to the specified files.
