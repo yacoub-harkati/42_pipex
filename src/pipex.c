@@ -87,5 +87,5 @@ int main(int ac, char **av, char **envp)
 		pipe_d->cmd_iter++;
 	}
 	ft_cleanup_pipe(pipe_d);
-	return (0);
+	return (EXIT_SUCCESS);
 }

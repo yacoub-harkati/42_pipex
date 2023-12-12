@@ -1,9 +1,7 @@
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
-SRC = pipex.c pipex_utils.c pipex_utils_2.c
-SRC_BONUS = pipex_bonus.c pipex_utils.c pipex_utils_2.c
-SRCS = $(addprefix ./src/, $(SRC))
-SRCS_BONUS = $(addprefix ./src/, $(SRC_BONUS))
+SRC = ./src/pipex.c ./src/pipex_utils.c ./src/pipex_utils_2.c
+SRC_BONUS = ./src/pipex_bonus.c ./src/pipex_utils.c ./src/pipex_utils_2.c
 
 OBJS = $(SRC:.c=.o)
 OBJS_BONUS = $(SRC_BONUS:.c=.o)
@@ -16,17 +14,11 @@ all: $(NAME)
 
 $(NAME): $(OBJS)
 	@make -C libft
-	@$(CC) $(CFLAGS) -c $(SRCS) -I $(HEAD)
-	@$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBFT) -I $(HEAD)
+	@$(CC) $(CFLAGS) -o $(NAME) $(SRC:.c=.o) $(LIBFT) -I $(HEAD)
 
-bonus: $(BONUS_OBJS)
+bonus: $(OBJS_BONUS)
 	@make -C libft
-	@$(CC) $(CFLAGS) -c $(SRCS_BONUS) -I $(HEAD)
-	@$(CC) $(CFLAGS) -o $(NAME) $(BONUS_OBJS) $(LIBFT) -I $(HEAD)
-
-$(BONUS_OBJS):
-	make -C libft
-	@$(CC) $(CFLAGS) -c $(BONUS_SRCS) -I $(HEAD)
+	@$(CC) $(CFLAGS) -o $(NAME)  $(SRC_BONUS:.c=.o) $(LIBFT) -I $(HEAD)
 
 fclean: clean
 	@make fclean -C libft
@@ -34,7 +26,7 @@ fclean: clean
 
 clean:
 	@make clean -C libft
-	@$(RM) $(OBJS) $(BONUS_OBJS)
+	@$(RM) $(OBJS) $(OBJS_BONUS)
 
 re: fclean all
 
