@@ -19,6 +19,7 @@ typedef struct s_pipex
 	int cmd_count;
 	int cmd_iter;
 	int cmd_offset;
+	int here_doc;
 	char **cmd_paths;
 	char **env_paths;
 	char ***cmd_args;

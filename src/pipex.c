@@ -18,6 +18,7 @@ void ft_init_pipex(int ac, char **av, char **envp, t_pipex *pipe_d)
 	pipe_d->cmd_count = 2;
 	pipe_d->cmd_offset = 2;
 	pipe_d->cmd_iter = 0;
+	pipe_d->here_doc = 0;
 	pipe_d->env_paths = ft_parse_env_paths( envp, pipe_d);
 	pipe_d->cmd_args = ft_parse_args( av, pipe_d);
 	pipe_d->cmd_paths = ft_parse_paths( pipe_d);
@@ -59,7 +60,7 @@ void ft_exec(t_pipex *pipe_d, char **envp)
 	}
 	else
 	{
-		ft_close_pipe(pipe_d);
+		ft_init_pipe(pipe_d);
 		waitpid(pid, NULL, 0);
 	}
 }

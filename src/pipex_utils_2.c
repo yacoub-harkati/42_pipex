@@ -68,6 +68,9 @@ void	ft_cleanup_pipe(t_pipex *pipe_d)
 	int	i;
 
 	i = 0;
+	if (pipe_d->here_doc)
+		unlink("here_doc");
+	ft_close_pipe(pipe_d);
 	while (i < pipe_d->cmd_count)
 	{
 		free_double_p(pipe_d->cmd_args[i]);

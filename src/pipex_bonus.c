@@ -50,7 +50,7 @@ int open_infile(char **av, t_pipex *pipe_d)
 {
 	int fd;
 
-	if (ft_strncmp(av[1], "here_doc", 9) == 0)
+	if (pipe_d->here_doc)
 	{
 		fd = open("here_doc", O_RDWR | O_TRUNC | O_CREAT, 0644);
 		if (fd < 0)
@@ -68,19 +68,28 @@ int open_infile(char **av, t_pipex *pipe_d)
 	return (fd);
 }
 
-int open_outfile(int ac, char **av)
+int open_outfile(int ac, char **av, t_pipex *pipe_d)
 {
 	int fd;
 
-	if (ft_strncmp(av[1], "here_doc", 9) == 0)
+	if (pipe_d->here_doc)
 		fd = open(av[ac - 1], O_RDWR | O_APPEND | O_CREAT, 0644);
 	else
 		fd = open(av[ac - 1], O_RDWR | O_TRUNC | O_CREAT, 0644);
 	return (fd);
 }
 
+int is_here_doc(char **av)
+{
+	if (ft_strncmp(av[1], "here_doc", 9) == 0)
+		return (1);
+	else
+		return (0);
+}
+
 void ft_init_pipex(int ac, char **av, char **envp, t_pipex *pipe_d)
 {
+	pipe_d->here_doc = is_here_doc(av);
 	pipe_d->cmd_count = get_cmd_number(ac, av);
 	pipe_d->cmd_offset = get_cmd_offset(av);
 	pipe_d->cmd_iter = 0;
@@ -88,7 +97,7 @@ void ft_init_pipex(int ac, char **av, char **envp, t_pipex *pipe_d)
 	pipe_d->cmd_args = ft_parse_args(av, pipe_d);
 	pipe_d->cmd_paths = ft_parse_paths(pipe_d);
 	pipe_d->in_fd = open_infile(av, pipe_d);
-	pipe_d->out_fd = open_outfile(ac, av);
+	pipe_d->out_fd = open_outfile(ac, av, pipe_d);
 	if (pipe_d->out_fd < 0 || pipe_d->in_fd < 0)
 	{
 		ft_cleanup_pipe(pipe_d);
@@ -120,6 +129,7 @@ void ft_exec(t_pipex *pipe_d, char **envp)
 		execve(pipe_d->cmd_paths[pipe_d->cmd_iter],
 			   pipe_d->cmd_args[pipe_d->cmd_iter], envp);
 		ft_fprintf(2, "Error: while executing command %d: %s\n", pipe_d->cmd_iter + 1, strerror(errno));
+		ft_close_pipe(pipe_d);
 		ft_cleanup_pipe(pipe_d);
 		exit(EXIT_FAILURE);
 	}
