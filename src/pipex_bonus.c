@@ -13,7 +13,7 @@
 #include "../includes/libft.h"
 #include "../includes/pipex.h"
 
-void ft_init_pipex(int ac, char **av, char **envp, t_pipex *pipe_d)
+void	ft_init_pipex(int ac, char **av, char **envp, t_pipex *pipe_d)
 {
 	pipe_d->here_doc = is_here_doc(av);
 	pipe_d->cmd_count = get_cmd_number(ac, av);
@@ -32,14 +32,14 @@ void ft_init_pipex(int ac, char **av, char **envp, t_pipex *pipe_d)
 	}
 }
 
-int main(int ac, char **av, char **envp)
+int	main(int ac, char **av, char **envp)
 {
-	t_pipex *pipe_d;
+	t_pipex	*pipe_d;
 
 	if (ac < 5)
 	{
 		ft_fprintf(2,
-				   "Invalid Arguments: > ./pipex file1 cmd1 cmd2 ... cmdn file2\n");
+			"Invalid Arguments: > ./pipex file1 cmd1 cmd2 ... cmdn file2\n");
 		exit(EXIT_FAILURE);
 	}
 	pipe_d = malloc(sizeof(t_pipex));

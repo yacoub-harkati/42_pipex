@@ -13,9 +13,9 @@
 #include "../includes/libft.h"
 #include "../includes/pipex.h"
 
-void write_here_doc(int in_fd, char *eof)
+void	write_here_doc(int in_fd, char *eof)
 {
-	char *line;
+	char	*line;
 
 	line = NULL;
 	while (get_next_line(0, &line) > 0)
@@ -23,22 +23,23 @@ void write_here_doc(int in_fd, char *eof)
 		if (ft_strncmp(line, eof, ft_strlen(eof)) == 0)
 		{
 			free(line);
-			break;
+			break ;
 		}
 		ft_fprintf(in_fd, "%s\n", line);
 		free(line);
 	}
 }
 
-void run_cmd(char **env, t_pipex *pipe_d)
+void	run_cmd(char **env, t_pipex *pipe_d)
 {
-	execve(pipe_d->cmd_paths[pipe_d->cmd_iter], pipe_d->cmd_args[pipe_d->cmd_iter], env);
+	execve(pipe_d->cmd_paths[pipe_d->cmd_iter],
+		pipe_d->cmd_args[pipe_d->cmd_iter], env);
 	perror("Error: while executing command");
 	ft_cleanup_pipe(pipe_d);
 	exit(EXIT_FAILURE);
 }
 
-void child_exec(t_pipex *pipe_d, char **env)
+void	child_exec(t_pipex *pipe_d, char **env)
 {
 	if (pipe_d->cmd_iter == pipe_d->cmd_count - 1)
 	{
@@ -65,9 +66,9 @@ void child_exec(t_pipex *pipe_d, char **env)
 	run_cmd(env, pipe_d);
 }
 
-void ft_exec(t_pipex *pipe_d, char **env)
+void	ft_exec(t_pipex *pipe_d, char **env)
 {
-	pid_t pid;
+	pid_t	pid;
 
 	if (pipe(pipe_d->fd_pipe) == -1)
 		ft_cleanup_exit(pipe_d);
@@ -90,7 +91,7 @@ void ft_exec(t_pipex *pipe_d, char **env)
 	}
 }
 
-void pipex(t_pipex *pipe_d, char **env)
+void	pipex(t_pipex *pipe_d, char **env)
 {
 	if (dup2(pipe_d->in_fd, STDIN_FILENO) < 0)
 	{

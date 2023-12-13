@@ -13,9 +13,9 @@
 #include "../includes/libft.h"
 #include "../includes/pipex.h"
 
-int open_infile(char **av, t_pipex *pipe_d)
+int	open_infile(char **av, t_pipex *pipe_d)
 {
-	int fd;
+	int	fd;
 
 	if (pipe_d->here_doc)
 	{
@@ -35,9 +35,9 @@ int open_infile(char **av, t_pipex *pipe_d)
 	return (fd);
 }
 
-int open_outfile(int ac, char **av, t_pipex *pipe_d)
+int	open_outfile(int ac, char **av, t_pipex *pipe_d)
 {
-	int fd;
+	int	fd;
 
 	if (pipe_d->here_doc)
 		fd = open(av[ac - 1], O_RDWR | O_APPEND | O_CREAT, 0644);
@@ -46,7 +46,7 @@ int open_outfile(int ac, char **av, t_pipex *pipe_d)
 	return (fd);
 }
 
-int is_here_doc(char **av)
+int	is_here_doc(char **av)
 {
 	if (ft_strncmp(av[1], "here_doc", 9) == 0)
 		return (1);
@@ -54,9 +54,9 @@ int is_here_doc(char **av)
 		return (0);
 }
 
-void free_double_p(char **str)
+void	free_double_p(char **str)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (str[i])
@@ -67,9 +67,9 @@ void free_double_p(char **str)
 	free(str);
 }
 
-void ft_cleanup_pipe(t_pipex *pipe_d)
+void	ft_cleanup_pipe(t_pipex *pipe_d)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (pipe_d->here_doc)

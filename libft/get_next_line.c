@@ -15,7 +15,7 @@
 char	*get_clean_line(char *buffer)
 {
 	int	i;
-	
+
 	if (!buffer || !*buffer)
 		return (NULL);
 	i = 0;
@@ -62,7 +62,7 @@ char	*initisalize_buffer(void)
 
 char	*read_line_lines(char *buffer, char *line, int fd, ssize_t *bytes_read)
 {
-	char *tmp;
+	char	*tmp;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 	{

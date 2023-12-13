@@ -34,7 +34,7 @@ char	*ft_get_correct_cmd_path(char *cmd, char **env_paths)
 	return (NULL);
 }
 
-char	**ft_parse_env_paths( char **envp, t_pipex *pipe_d)
+char	**ft_parse_env_paths(char **envp, t_pipex *pipe_d)
 {
 	int		i;
 	char	**paths;
@@ -59,7 +59,7 @@ char	**ft_parse_env_paths( char **envp, t_pipex *pipe_d)
 	return (paths);
 }
 
-char	***ft_parse_args( char **av, t_pipex *pipe_d)
+char	***ft_parse_args(char **av, t_pipex *pipe_d)
 {
 	int		i;
 	char	***args;

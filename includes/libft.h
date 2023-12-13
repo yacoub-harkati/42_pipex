@@ -15,9 +15,9 @@
 
 # include <limits.h>
 # include <stdarg.h>
+# include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
-# include <stdio.h>
 # define HEX "0123456789abcdef"
 # define MHEX "0123456789ABCDEF"
 # define SIZE_MAX 18446744073709551615UL
@@ -32,7 +32,7 @@ typedef struct s_list
 	struct s_list	*next;
 }					t_list;
 
-ssize_t	get_next_line(int fd, char **buff);
+ssize_t				get_next_line(int fd, char **buff);
 int					ft_fprintf(int fd, const char *s, ...);
 int					ft_isalnum(int c);
 int					ft_isalpha(int c);
