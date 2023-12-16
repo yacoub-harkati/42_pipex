@@ -25,7 +25,7 @@ void	write_here_doc(int in_fd, char *eof)
 			free(line);
 			break ;
 		}
-		ft_fprintf(in_fd, "%s\n", line);
+		ft_fprintf(in_fd, "%s", line);
 		free(line);
 	}
 }

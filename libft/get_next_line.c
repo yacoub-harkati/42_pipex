@@ -79,7 +79,7 @@ char	*read_line_lines(char *buffer, char *line, int fd, ssize_t *bytes_read)
 	line[*bytes_read] = '\0';
 	tmp = buffer;
 	buffer = ft_strjoin(buffer, line);
-	free(tmp);
+	// free(tmp);
 	return (buffer);
 }
 
@@ -102,7 +102,7 @@ ssize_t	get_next_line(int fd, char **buff)
 		buffer[fd] = read_line_lines(buffer[fd], line, fd, &bytes_read);
 	*buff = get_clean_line(buffer[fd]);
 	buffer[fd] = get_rest(buffer[fd]);
-	if (!*buffer[fd])
-		free(buffer[fd]);
+	// if (!*buffer[fd])
+	// 	free(buffer[fd]);
 	return (free(line), bytes_read);
 }
