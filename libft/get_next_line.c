@@ -102,7 +102,10 @@ ssize_t	get_next_line(int fd, char **buff)
 		buffer[fd] = read_line_lines(buffer[fd], line, fd, &bytes_read);
 	*buff = get_clean_line(buffer[fd]);
 	buffer[fd] = get_rest(buffer[fd]);
-	// if (!*buffer[fd])
-	// 	free(buffer[fd]);
+	if (!*buffer[fd])
+	{
+		free(buffer[fd]);
+		buffer[fd] = NULL;
+	}
 	return (free(line), bytes_read);
 }
